@@ -1,9 +1,9 @@
-//File: routes/tvshows.js
+//File: routes/CharacterRoutes.js
 module.exports = function(app) {
 
   var Character = require('../models/CharacterModel.js');
 
-  //GET - Return all tvshows in the DB
+  //GET - Return all characters in the DB
   findAllCharacters = function(req, res) {
   	Character.find(function(err, characters) {
   		if(!err) {
@@ -15,7 +15,7 @@ module.exports = function(app) {
   	});
   };
 
-  //GET - Return a TVShow with specified ID
+  //GET - Return a character with specified ID
   findById = function(req, res) {
   	Character.findById(req.params.id, function(err, character) {
   		if(!err) {
@@ -27,7 +27,7 @@ module.exports = function(app) {
   	});
   };
 
-  //POST - Insert a new TVShow in the DB
+  //POST - Insert a new character in the DB
   addCharacter = function(req, res) {
   	console.log('POST');
   	console.log(req.body);
@@ -36,7 +36,7 @@ module.exports = function(app) {
   		name:    req.body.name,
   		descripction: 	  req.body.descripction,
   		imageurl:  req.body.imageurl,
-  		houseid:   req.body.houseid
+  		house_id:   req.body.house_id
   	});
 
   	character.save(function(err) {
@@ -56,7 +56,7 @@ module.exports = function(app) {
   		character.name  = req.body.name;
   		character.descripction  = req.body.descripction;
   		character.imageurl = req.body.imageurl;
-  		character.houseid  = req.body.houseid;
+  		character.house_id  = req.body.house_id;
 
   		character.save(function(err) {
   			if(!err) {
@@ -69,7 +69,7 @@ module.exports = function(app) {
   	});
   }
 
-  //DELETE - Delete a TVShow with specified ID
+  //DELETE - Delete a character with specified ID
   deleteCharacter = function(req, res) {
   	Character.findById(req.params.id, function(err, character) {
   		character.remove(function(err) {

@@ -1,9 +1,9 @@
-//File: routes/tvshows.js
+//File: routes/HouseRoutes.js
 module.exports = function(app) {
 
   var House = require('../models/HouseModel.js');
 
-  //GET - Return all tvshows in the DB
+  //GET - Return all houses in the DB
   findAllHouses = function(req, res) {
   	House.find(function(err, houses) {
   		if(!err) {
@@ -15,7 +15,7 @@ module.exports = function(app) {
   	});
   };
 
-  //GET - Return a TVShow with specified ID
+  //GET - Return a house with specified ID
   findById = function(req, res) {
   	House.findById(req.params.id, function(err, house) {
   		if(!err) {
@@ -27,7 +27,7 @@ module.exports = function(app) {
   	});
   };
 
-  //POST - Insert a new TVShow in the DB
+  //POST - Insert a new house in the DB
   addHouse = function(req, res) {
   	console.log('POST');
   	console.log(req.body);
@@ -65,7 +65,7 @@ module.exports = function(app) {
   	});
   }
 
-  //DELETE - Delete a TVShow with specified ID
+  //DELETE - Delete a house with specified ID
   deleteHouse = function(req, res) {
   	House.findById(req.params.id, function(err, house) {
   		house.remove(function(err) {

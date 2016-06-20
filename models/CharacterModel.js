@@ -6,7 +6,7 @@ var characterSchema = new Schema({
 	name:  { type: String },
 	descripction:  { type: String },
 	imageurl:  { type: String },
-	houseid: { type: Number }
+	house_id: { type: Number }
 });
 
 module.exports = mongoose.model('character', characterSchema);
