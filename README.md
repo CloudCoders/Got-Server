@@ -37,15 +37,18 @@ Download and install mongodb (Create db folder or when mongo start throw an erro
 <h2>Request</h2>
 
 -- House -- <br/>
-method: get   req: /houses  (findAllHouses)<br/>
-method: get   req: /house/:id (findById) <br/>
-method: post  req: /house   (addHouse) In the body request send the object with type json <br/>
-method: put   req: /house/:id   (updateHouse) In the body request send the object with type json<br/>
-method: delete  req: /house/:id   (deleteHouse) <br/>
-
+```
+method: get   req: /houses  (findAllHouses)
+method: get   req: /house/:id (findById) 
+method: post  req: /house   (addHouse) In the body request send the object with type json 
+method: put   req: /house/:id   (updateHouse) In the body request send the object with type json
+method: delete  req: /house/:id   (deleteHouse) 
+```
 -- Character -- <br/>
-method: get   req: /characters  (findAllCharacters)<br/>
-method: get   req: /character/:id (findById) <br/>
-method: post  req: /character   (addCharacter) In the body request send the object with type json <br/>
-method: put   req: /character/:id   (updateCharacter) In the body request send the object with type json<br/>
-method: delete  req: /character/:id   (deleteCharacter) <br/>
+```
+method: get   req: /characters  (findAllCharacters)
+method: get   req: /character/:id (findById) 
+method: post  req: /character   (addCharacter) In the body request send the object with type json 
+method: put   req: /character/:id   (updateCharacter) In the body request send the object with type json
+method: delete  req: /character/:id   (deleteCharacter) 
+```
