@@ -29,7 +29,7 @@ Download and install mongodb (Create db folder or when mongo start throw an erro
 {
   "name": "Daenerys Targaryen", 
   "description": "Daenerys Targaryen is the daughter of King Aerys II Targaryen", 
-  "houseid": 19000, 
+  "house_id": 19000, 
   "imageurl": "http://ia.media-imdb.com/images/M/MV5BMjA3NzMyMzU1MV5BMl5BanBnXkFtZTcwNjc1ODUwMg@@._V1_SY317_CR17,0,214,317_.jpg" 
 } 
 ```
