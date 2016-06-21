@@ -4,6 +4,7 @@ var mongoose = require('mongoose'),
 
 var houseSchema = new Schema({
 	name:  { type: String },
+	watchword: { type: String },
 	imageurl:  { type: String }
 });
 

@@ -2,7 +2,7 @@
 module.exports = function(app) {
 
   var Character = require('../models/CharacterModel.js');
-
+  var House = require('../models/HouseModel.js');
   //GET - Return all characters in the DB
   findAllCharacters = function(req, res) {
   	Character.find(function(err, characters) {
@@ -20,9 +20,21 @@ module.exports = function(app) {
   	Character.findById(req.params.id, function(err, character) {
   		if(!err) {
         console.log('GET /character/' + req.params.id);
-  			res.send(character);
+        // Find the house with house_id
+        House.findById(character.house_id, function(err, house) {
+          if(!err) {
+              character._doc.house = house._doc;
+              res.send(character);
+          } else {
+            console.log('ERROR: ' + err);
+            res.send('ERROR: ' + err);
+          }
+        })
+        // Send the character with the house
+        //res.send(character);
   		} else {
   			console.log('ERROR: ' + err);
+        res.send('ERROR: ' + err);
   		}
   	});
   };
@@ -72,13 +84,20 @@ module.exports = function(app) {
   //DELETE - Delete a character with specified ID
   deleteCharacter = function(req, res) {
   	Character.findById(req.params.id, function(err, character) {
-  		character.remove(function(err) {
-  			if(!err) {
-  				console.log('Removed');
-  			} else {
-  				console.log('ERROR: ' + err);
-  			}
-  		})
+      if(!err && character) {
+        character.remove(function(err) {
+      			if(!err) {
+      				console.log('Removed');
+              res.send({'operation':'succes'});
+      			} else {
+      				console.log('ERROR: ' + err);
+              res.send({'operation':err});
+      			}
+  		  });
+      } else {
+        console.log('ERROR: ' + err);
+        res.send({'operation':err});
+      }
   	});
   }
 
