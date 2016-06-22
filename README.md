@@ -10,6 +10,7 @@ Download and install mongodb (Create db folder or when mongo start throw an erro
 
 2) Open other terminal for start mongodb, go to mongodb folder and open mongod.exe <br/>
 
+<h2>Run options</h2>
 3.1) To run in production <br/>
   In the terminal with the node project folder run : node app.js <br/>
   and the server will start on <a src="http://localhost:3000/">http://localhost:3000/</a> <br/>
