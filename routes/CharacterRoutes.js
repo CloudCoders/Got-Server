@@ -1,8 +1,9 @@
+/*jshint esversion: 6 */
 //File: routes/CharacterRoutes.js
 module.exports = function(app) {
 
-    var Character = require('../models/CharacterModel.js');
-    var House = require('../models/HouseModel.js');
+    const Character = require('../models/CharacterModel.js');
+    const House = require('../models/HouseModel.js');
     //GET - Return all characters in the DB
     findAllCharacters = function(req, res) {
         Character.find(function(err, characters) {

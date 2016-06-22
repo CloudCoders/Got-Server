@@ -1,7 +1,8 @@
+/*jshint esversion: 6 */
 //File: routes/HouseRoutes.js
 module.exports = function(app) {
 
-    var House = require('../models/HouseModel.js');
+    const House = require('../models/HouseModel.js');
 
     //GET - Return all houses in the DB
     findAllHouses = function(req, res) {

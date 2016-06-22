@@ -1,7 +1,8 @@
-var mongoose = require('mongoose'),
+/*jshint esversion: 6 */
+const mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
-var houseSchema = new Schema({
+const houseSchema = new Schema({
     name: {
         type: String
     },
