@@ -2,7 +2,7 @@
 //File: routes/HouseRoutes.js
 module.exports = function(app) {
 
-    const House = require('../models/HouseModel.js');
+    const House = require('../models/HouseSchema.js');
 
     //GET - Return all houses in the DB
     findAllHouses = function(req, res) {

@@ -4,16 +4,20 @@ const mongoose = require('mongoose'),
 
 const characterSchema = new Schema({
     name: {
-        type: String
+        type: String,
+        required: [true, "Name need it!"]
     },
-    descripction: {
-        type: String
+    description: {
+        type: String,
+        required: [true, "Descripction need it!"]
     },
     imageurl: {
-        type: String
+        type: String,
+        required: [true, "Image url need it!"]
     },
     house_id: {
-        type: String
+        type: String,
+        default: null
     }
 });
 

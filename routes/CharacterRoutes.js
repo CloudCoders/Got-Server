@@ -2,8 +2,8 @@
 //File: routes/CharacterRoutes.js
 module.exports = function(app) {
 
-    const Character = require('../models/CharacterModel.js');
-    const House = require('../models/HouseModel.js');
+    const Character = require('../models/CharacterSchema.js');
+    const House = require('../models/HouseSchema.js');
     //GET - Return all characters in the DB
     findAllCharacters = function(req, res) {
         Character.find(function(err, characters) {
@@ -47,7 +47,7 @@ module.exports = function(app) {
 
         var character = new Character({
             name: req.body.name,
-            descripction: req.body.descripction,
+            description: req.body.description,
             imageurl: req.body.imageurl,
             house_id: req.body.house_id
         });
@@ -67,7 +67,7 @@ module.exports = function(app) {
     updateCharacter = function(req, res) {
         Character.findById(req.params.id, function(err, character) {
             character.name = req.body.name;
-            character.descripction = req.body.descripction;
+            character.description = req.body.description;
             character.imageurl = req.body.imageurl;
             character.house_id = req.body.house_id;
 
