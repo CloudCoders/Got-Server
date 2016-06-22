@@ -1,11 +1,18 @@
+/*jshint esversion: 6 */
 //File: routes/tvshows.js
-module.exports = function(app) {
+var TVShow = require('../models/tvshow.js');
 
-    var TVShow = require('../models/tvshow.js');
+class GenericController {
+
+    constructor(schema) {
+        console.log(schema);
+        this._schema = schema;
+        console.log(this._schema);
+    }
 
     //GET - Return all tvshows in the DB
-    findAllTVShows = function(req, res) {
-        TVShow.find(function(err, tvshows) {
+    findAllTVShows(req, res) {
+        TVShow.find(function(err, tvshows) { // TODO change TVShow for this._schema of the soon
             if (!err) {
                 console.log('GET /tvshows');
                 res.send(tvshows);
@@ -13,10 +20,10 @@ module.exports = function(app) {
                 console.log('ERROR: ' + err);
             }
         });
-    };
+    }
 
     //GET - Return a TVShow with specified ID
-    findById = function(req, res) {
+    findById(req, res) {
         TVShow.findById(req.params.id, function(err, tvshow) {
             if (!err) {
                 console.log('GET /tvshow/' + req.params.id);
@@ -25,10 +32,10 @@ module.exports = function(app) {
                 console.log('ERROR: ' + err);
             }
         });
-    };
+    }
 
     //POST - Insert a new TVShow in the DB
-    addTVShow = function(req, res) {
+    addTVShow(req, res) {
         console.log('POST');
         console.log(req.body);
 
@@ -51,10 +58,10 @@ module.exports = function(app) {
         });
 
         res.send(tvshow);
-    };
+    }
 
     //PUT - Update a register already exists
-    updateTVShow = function(req, res) {
+    updateTVShow(req, res) {
         TVShow.findById(req.params.id, function(err, tvshow) {
             tvshow.title = req.body.petId;
             tvshow.year = req.body.year;
@@ -73,10 +80,10 @@ module.exports = function(app) {
                 res.send(tvshow);
             });
         });
-    };
+    }
 
     //DELETE - Delete a TVShow with specified ID
-    deleteTVShow = function(req, res) {
+    deleteTVShow(req, res) {
         TVShow.findById(req.params.id, function(err, tvshow) {
             tvshow.remove(function(err) {
                 if (!err) {
@@ -86,13 +93,8 @@ module.exports = function(app) {
                 }
             });
         });
-    };
+    }
 
-    //Link routes and functions
-    app.get('/tvshows', findAllTVShows);
-    app.get('/tvshow/:id', findById);
-    app.post('/tvshow', addTVShow);
-    app.put('/tvshow/:id', updateTVShow);
-    app.delete('/tvshow/:id', deleteTVShow);
+}
 
-};
+module.exports = GenericController;
