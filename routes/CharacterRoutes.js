@@ -1,118 +1,13 @@
 /*jshint esversion: 6 */
-//File: routes/CharacterRoutes.js
 module.exports = function(app) {
-
-    const Character = require('../models/CharacterSchema.js');
-    const House = require('../models/HouseSchema.js');
-    //GET - Return all characters in the DB
-    findAllCharacters = function(req, res) {
-        Character.find(function(err, characters) {
-            if (!err) {
-                console.log('GET /characters');
-                res.send(characters);
-            } else {
-                console.log('ERROR: ' + err);
-            }
-        });
-    };
-
-    //GET - Return a character with specified ID
-    findById = function(req, res) {
-        Character.findById(req.params.id, function(err, character) {
-            if (!err) {
-                console.log('GET /character/' + req.params.id);
-                // Find the house with house_id
-                House.findById(character.house_id, function(err, house) {
-                        if (!err) {
-                            character._doc.house = house._doc;
-                            res.send(character);
-                        } else {
-                            console.log('ERROR: ' + err);
-                            res.send('ERROR: ' + err);
-                        }
-                    });
-                    // Send the character with the house
-                    //res.send(character);
-            } else {
-                console.log('ERROR: ' + err);
-                res.send('ERROR: ' + err);
-            }
-        });
-    };
-
-    //POST - Insert a new character in the DB
-    addCharacter = function(req, res) {
-        console.log('POST');
-        console.log(req.body);
-
-        var character = new Character({
-            name: req.body.name,
-            description: req.body.description,
-            imageurl: req.body.imageurl,
-            house_id: req.body.house_id
-        });
-
-        character.save(function(err) {
-            if (!err) {
-                console.log('Created');
-            } else {
-                console.log('ERROR: ' + err);
-            }
-        });
-
-        res.send(character);
-    };
-
-    //PUT - Update a register already exists
-    updateCharacter = function(req, res) {
-        Character.findById(req.params.id, function(err, character) {
-            character.name = req.body.name;
-            character.description = req.body.description;
-            character.imageurl = req.body.imageurl;
-            character.house_id = req.body.house_id;
-
-            character.save(function(err) {
-                if (!err) {
-                    console.log('Updated');
-                } else {
-                    console.log('ERROR: ' + err);
-                }
-                res.send(character);
-            });
-        });
-    };
-
-    //DELETE - Delete a character with specified ID
-    deleteCharacter = function(req, res) {
-        Character.findById(req.params.id, function(err, character) {
-            if (!err && character) {
-                character.remove(function(err) {
-                    if (!err) {
-                        console.log('Removed');
-                        res.send({
-                            'operation': 'succes'
-                        });
-                    } else {
-                        console.log('ERROR: ' + err);
-                        res.send({
-                            'operation': err
-                        });
-                    }
-                });
-            } else {
-                console.log('ERROR: ' + err);
-                res.send({
-                    'operation': err
-                });
-            }
-        });
-    };
+    //var controller = require('../controllers/tvshowController');
+    var controller = require('../controllers/CharacterController');
 
     //Link routes and functions
-    app.get('/characters', findAllCharacters);
-    app.get('/character/:id', findById);
-    app.post('/character', addCharacter);
-    app.put('/character/:id', updateCharacter);
-    app.delete('/character/:id', deleteCharacter);
+    app.get('/characters', controller.findAllCharacters);
+    app.get('/character/:id', controller.findById);
+    app.post('/character', controller.addCharacter);
+    app.put('/character/:id', controller.updateCharacter);
+    app.delete('/character/:id', controller.deleteCharacter);
 
 };
