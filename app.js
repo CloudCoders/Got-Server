@@ -17,7 +17,7 @@ app.get('/', function(req, res) {
 });
 
 // import routes
-tvShowRoutes = require('./routes/tvshowRoutes')(app);
+tvShowRoutes = require('./routes/TVShowRoutes')(app);
 characterRoutes = require('./routes/CharacterRoutes')(app);
 houseRoutes = require('./routes/HouseRoutes')(app);
 

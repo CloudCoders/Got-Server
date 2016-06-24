@@ -1,100 +1,58 @@
 /*jshint esversion: 6 */
 //File: routes/tvshows.js
-var TVShow = require('../models/tvshow.js');
+function GenericController(schema) {
 
-class GenericController {
+    var _schema = schema;
 
-    constructor(schema) {
-        console.log(schema);
-        this._schema = schema;
-        console.log(this._schema);
-    }
-
-    //GET - Return all tvshows in the DB
-    findAllTVShows(req, res) {
-        TVShow.find(function(err, tvshows) { // TODO change TVShow for this._schema of the soon
+    //GET - Return all _schema in the DB
+    GenericController.prototype.findAll = function(req, res) {
+        _schema.find(function(err, oBean) {
             if (!err) {
-                console.log('GET /tvshows');
-                res.send(tvshows);
+                console.log(`GET /findAll`);
+                res.send(oBean);
             } else {
                 console.log('ERROR: ' + err);
             }
         });
-    }
+    };
 
-    //GET - Return a TVShow with specified ID
-    findById(req, res) {
-        TVShow.findById(req.params.id, function(err, tvshow) {
+    //GET - Return a _schema with specified ID
+    GenericController.prototype.findById = function(req, res) {
+        _schema.findById(req.params.id, function(err, oBean) {
             if (!err) {
-                console.log('GET /tvshow/' + req.params.id);
-                res.send(tvshow);
+                console.log('GET /findById/' + req.params.id);
+                res.send(oBean);
             } else {
                 console.log('ERROR: ' + err);
             }
         });
-    }
+    };
 
-    //POST - Insert a new TVShow in the DB
-    addTVShow(req, res) {
-        console.log('POST');
-        console.log(req.body);
-
-        var tvshow = new TVShow({
-            title: req.body.title,
-            year: req.body.year,
-            country: req.body.country,
-            poster: req.body.poster,
-            seasons: req.body.seasons,
-            genre: req.body.genre,
-            summary: req.body.summary
-        });
-
-        tvshow.save(function(err) {
-            if (!err) {
-                console.log('Created');
+    //DELETE - Delete a _schema with specified ID
+    GenericController.prototype.delete = function(req, res) {
+        _schema.findById(req.params.id, function(err, oBean) {
+            if (!err && oBean) {
+                oBean.remove(function(err) {
+                    if (!err) {
+                        console.log('Removed');
+                        res.send({
+                            'operation': 'succes'
+                        });
+                    } else {
+                        console.log('ERROR: ' + err);
+                        res.send({
+                            'operation': err
+                        });
+                    }
+                });
             } else {
                 console.log('ERROR: ' + err);
+                res.send({
+                    'operation': err
+                });
             }
         });
-
-        res.send(tvshow);
-    }
-
-    //PUT - Update a register already exists
-    updateTVShow(req, res) {
-        TVShow.findById(req.params.id, function(err, tvshow) {
-            tvshow.title = req.body.petId;
-            tvshow.year = req.body.year;
-            tvshow.country = req.body.country;
-            tvshow.poster = req.body.poster;
-            tvshow.seasons = req.body.seasons;
-            tvshow.genre = req.body.genre;
-            tvshow.summary = req.body.summary;
-
-            tvshow.save(function(err) {
-                if (!err) {
-                    console.log('Updated');
-                } else {
-                    console.log('ERROR: ' + err);
-                }
-                res.send(tvshow);
-            });
-        });
-    }
-
-    //DELETE - Delete a TVShow with specified ID
-    deleteTVShow(req, res) {
-        TVShow.findById(req.params.id, function(err, tvshow) {
-            tvshow.remove(function(err) {
-                if (!err) {
-                    console.log('Removed');
-                } else {
-                    console.log('ERROR: ' + err);
-                }
-            });
-        });
-    }
-
+    };
 }
 
 module.exports = GenericController;
