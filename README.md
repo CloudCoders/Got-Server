@@ -68,3 +68,15 @@ method: post  req: /character   (addCharacter) In the body request send the obje
 method: put   req: /character/:id   (updateCharacter) In the body request send the object with type json
 method: delete  req: /character/:id   (deleteCharacter)
 ```
+-- User -- <br/>
+```
+method: get   req: /users  (findAllUsers)
+method: get   req: /user/:id (findById)
+
+method: put   req: /user/:id   (updateUser) Only login in
+method: delete  req: /user/:id   (deleteUser) Only login in
+
+method: post   req: /signin (adduser) In the body request send the object with type json
+method: post   req: /login (CheckUser) In the body request send the object with type json
+method: get   req: /logout 
+```
