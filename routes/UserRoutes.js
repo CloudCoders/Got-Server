@@ -1,34 +1,42 @@
 /*jshint esversion: 6 */
 module.exports = function(app, passport) {
     var controller = require('../controllers/UserController');
-    //Link routes and functions
+    //Rutas genericas publicas
     app.get('/users', controller.findAll);
     app.get('/user/:id', controller.findById);
-    app.post('/user', controller.add);
-    app.put('/user/:id', controller.update);
-    app.delete('/user/:id', controller.delete);
 
+		//Rutas genericas privadas
+    app.post('/user', function(req, res) {
+        isLoggedIn(req, res, controller.add);
+    });
+    app.put('/user/:id', function(req, res) {
+        isLoggedIn(req, res, controller.update);
+    });
+    app.delete('/user/:id', function(req, res) {
+        isLoggedIn(req, res, controller.delete);
+    });
 
     app.get('/logout', function(req, res) {
         req.logout();
         res.send('Logout succes');
     });
 
-    // process the signup form
+    // Registra un nuevo usuario
     app.post('/signup', passport.authenticate('local-signup'));
-
-    // process the login form
-    app.post('/login', passport.authenticate('local-login'));
+    // Loguea un usuario y lo mete en sesion
+    app.post('/login', passport.authenticate('local-login'),
+        // Si esta logueado devuelve el user
+        function(req, res) {
+            res.send("Logueado con exito!!!");
+        }
+    );
 };
-// Login es autenticar
-// Sign Up es crear nuevo usuario
 
-// route middleware to make sure a user is logged in
-function isLoggedIn(req, res, next) {
-    // if user is authenticated in the session, carry on
+//Comprueba que el usuario esta registrado en la sesion
+function isLoggedIn(req, res, callback) {
+    // Si el user esta autenticado ejecuta el callback pasandole res y req
     if (req.isAuthenticated()) {
-        return next();
+        return callback(req, res);
     }
-    // if they aren't redirect them to the home page
-    res.send("Not logged!");
+    res.send("Not logged! Nor permited.");
 }

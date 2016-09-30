@@ -16,13 +16,17 @@ const userSchema = new Schema({
 
 // methods ======================
 // generating a hash
-userSchema.methods.generateHash = function(password) {
+userSchema.methods.encriptPass = function(password) {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
 };
-
 // checking if password is valid
-userSchema.methods.validPassword = function(password) {
+// *********** Dont run well
+userSchema.methods.validEncriptPassword = function(password) {
     return bcrypt.compareSync(password, this.password);
+};
+// checking if password is valid
+userSchema.methods.validNormalPassword = function(password) {
+    return (password == this.password);
 };
 
 module.exports = mongoose.model('user', userSchema);

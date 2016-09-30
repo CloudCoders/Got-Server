@@ -23,6 +23,9 @@ module.exports = function(passport) {
     // used to deserialize the user
     passport.deserializeUser(function(id, done) {
         User.findById(id, function(err, user) {
+            if (err) {
+                return done(err);
+            }
             done(err, user);
         });
     });
@@ -51,13 +54,13 @@ module.exports = function(passport) {
                     'username': username
                 }, function(err, user) {
                     // if there are any errors, return the error
-                    if (err)
+                    if (err) {
                         return done(err);
-
+                    }
                     // check to see if theres already a user with that email
                     if (user) {
                         return done(null, false, console.log({
-                            'signupMessage': 'That email is already taken.'
+                            'signupMessage': 'El usuario ya existe.'
                         }));
                     } else {
 
@@ -67,7 +70,8 @@ module.exports = function(passport) {
 
                         // set the user's local credentials
                         newUser.username = username;
-                        newUser.password = newUser.generateHash(password);
+                        newUser.password = password; // ******* Modificar para password encriptado
+                        //newUser.password = newUser.generateHash(password);
 
                         // save the user
                         newUser.save(function(err) {
@@ -105,25 +109,23 @@ module.exports = function(passport) {
                 'username': username
             }, function(err, user) {
                 // if there are any errors, return the error before anything else
-                if (err)
+                if (err) {
                     return done(err);
-
+                }
                 // if no user is found, return the message
-                if (!user)
+                if (!user) {
                     return done(null, false, console.log({
                         'loginMessage': 'No user found.'
                     })); // req.flash is the way to set flashdata using connect-flash
-
+                }
                 // if the user is found but the password is wrong
-                if (!user.validPassword(password))
+                if (!user.validNormalPassword(password)) { // ******* Modificar para password encriptado
                     return done(null, false, console.log({
                         'loginMessage': 'Oops! Wrong password.'
                     })); // create the loginMessage and save it to session as flashdata
-
+                }
                 // all is well, return successful user
                 return done(null, user);
             });
-
         }));
-
 };

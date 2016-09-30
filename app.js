@@ -18,12 +18,11 @@ mongoose.connect('mongodb://localhost/gotdb', function(err, res) {
 
 // middlewares
 app.configure(function() {
-	app.use(express.cookieParser());
+    app.use(express.cookieParser());
     app.use(express.bodyParser());
     app.use(express.methodOverride());
-		app.use(session({
-				secret: 'stronquens is the best'
-		})); // session secret
+		app.use(require('express-session')({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
+
     app.use(passport.initialize());
     app.use(passport.session()); // persistent login sessions
     app.use(app.router);
