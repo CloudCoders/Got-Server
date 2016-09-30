@@ -1,5 +1,5 @@
 # Got-Server
-Nodejs, Express, mongose api server
+Nodejs, Express, Passport, mongose api server
 
 <h2>Initialize</h2>
 Download and install node.js <br/>
