@@ -9,9 +9,6 @@ var CharacterController = new GenericController(Character);
 
 //POST - Insert a new character in the DB
 CharacterController.add = function(req, res) {
-    console.log('POST');
-    console.log(req.body);
-
     var character = new Character({
         name: req.body.name,
         description: req.body.description,
@@ -60,14 +57,12 @@ CharacterController.findById = function(req, res) {
                     character._doc.house = house._doc;
                     res.send(character);
                 } else {
-                    console.log('ERROR: ' + err);
                     res.send('ERROR: ' + err);
                 }
             });
             // Send the character with the house
             //res.send(character);
         } else {
-            console.log('ERROR: ' + err);
             res.send('ERROR: ' + err);
         }
     });

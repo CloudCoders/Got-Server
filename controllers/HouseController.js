@@ -7,9 +7,6 @@ var HouseController = new GenericController(House);
 
 //POST - Insert a new house in the DB
 HouseController.add = function(req, res) {
-    console.log('POST');
-    console.log(req.body);
-
     var house = new House({
         name: req.body.name,
         watchword: req.body.watchword,

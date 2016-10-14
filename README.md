@@ -1,5 +1,5 @@
 # Got-Server
-Nodejs, Express, Passport, mongose api server
+Nodejs, Express, Passport, mongose, bcrypt api server
 
 <h2>Initialize</h2>
 Download and install node.js <br/>
@@ -68,13 +68,13 @@ method: delete  req: /character/:id   (deleteCharacter)
 ```
 -- User -- <br/>
 ```
-method: get   req: /users  (findAllUsers)
-method: get   req: /user/:id (findById)
+method: get   req: /users  (findAllUsers) Only login in
+method: get   req: /user/:id (findById) Only login in
 
 method: put   req: /user/:id   (updateUser) Only login in
 method: delete  req: /user/:id   (deleteUser) Only login in
 
 method: post   req: /signin (adduser) In the body request send the object with type json
 method: post   req: /login (CheckUser) In the body request send the object with type json
-method: get   req: /logout 
+method: get   req: /logout
 ```

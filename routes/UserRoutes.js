@@ -21,7 +21,7 @@ module.exports = function(app, passport) {
         req.logout();
         res.send({
             'status': true,
-            'message': 'Logout succes'
+            'message': 'Logout succes.'
         });
     });
     // Registra un nuevo usuario
@@ -53,7 +53,7 @@ module.exports = function(app, passport) {
                     }
                     return res.send({
                         success: true,
-                        message: 'autenticado con exito'
+                        message: 'Autenticado con exito.'
                     });
                 });
             })(req, res, next);

@@ -6,9 +6,6 @@ var UserController = new GenericController(User);
 
 //POST - Insert a new character in the DB
 UserController.add = function(req, res) {
-    console.log('POST');
-    console.log(req.body);
-
     var user = new User({
         username: req.body.username,
         password: req.body.password
