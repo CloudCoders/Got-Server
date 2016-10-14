@@ -54,7 +54,6 @@ CharacterController.update = function(req, res) {
 CharacterController.findById = function(req, res) {
     Character.findById(req.params.id, function(err, character) {
         if (!err) {
-            console.log('GET /character/' + req.params.id);
             // Find the house with house_id
             House.findById(character.house_id, function(err, house) {
                 if (!err) {

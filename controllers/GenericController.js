@@ -8,7 +8,6 @@ function GenericController(schema) {
     GenericController.prototype.findAll = function(req, res) {
         _schema.find(function(err, oBean) {
             if (!err) {
-                console.log(`GET /findAll`);
                 res.send(oBean);
             } else {
                 console.log('ERROR: ' + err);
@@ -20,7 +19,6 @@ function GenericController(schema) {
     GenericController.prototype.findById = function(req, res) {
         _schema.findById(req.params.id, function(err, oBean) {
             if (!err) {
-                console.log('GET /findById/' + req.params.id);
                 res.send(oBean);
             } else {
                 console.log('ERROR: ' + err);
@@ -34,7 +32,6 @@ function GenericController(schema) {
             if (!err && oBean) {
                 oBean.remove(function(err) {
                     if (!err) {
-                        console.log('Removed');
                         res.send({
                             'operation': 'succes'
                         });

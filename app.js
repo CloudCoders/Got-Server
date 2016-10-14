@@ -31,9 +31,8 @@ app.configure(function() {
 require('./config/passport')(passport);
 
 // import routes
-require('./routes/TVShowRoutes')(app, passport);
-require('./routes/CharacterRoutes')(app, passport);
-require('./routes/HouseRoutes')(app, passport);
+require('./routes/CharacterRoutes')(app);
+require('./routes/HouseRoutes')(app);
 require('./routes/UserRoutes')(app, passport);
 
 // server start
