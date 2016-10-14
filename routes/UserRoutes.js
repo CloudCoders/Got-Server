@@ -1,13 +1,13 @@
 /*jshint esversion: 6 */
 module.exports = function(app, passport) {
     var controller = require('../controllers/UserController');
-    //Rutas genericas publicas
-    app.get('/users', controller.findAll);
-    app.get('/user/:id', controller.findById);
 
-		//Rutas genericas privadas
-    app.post('/user', function(req, res) {
-        isLoggedIn(req, res, controller.add);
+    // Private acces, only if loggued in
+    app.get('/users', function(req, res) {
+        isLoggedIn(req, res, controller.findAll);
+    });
+    app.get('/user/:id', function(req, res) {
+        isLoggedIn(req, res, controller.findById);
     });
     app.put('/user/:id', function(req, res) {
         isLoggedIn(req, res, controller.update);
@@ -16,18 +16,47 @@ module.exports = function(app, passport) {
         isLoggedIn(req, res, controller.delete);
     });
 
+    // public access, not logged
     app.get('/logout', function(req, res) {
         req.logout();
-        res.send('Logout succes');
+        res.send({
+            'status': true,
+            'message': 'Logout succes'
+        });
     });
-
     // Registra un nuevo usuario
-    app.post('/signup', passport.authenticate('local-signup'));
+    app.post('/signup', function(req, res, next) {
+        passport.authenticate('local-signup', function(err, user, info) {
+            if (err) {
+                return next(err); // will generate a 500 error
+            }
+            return res.send(info); // Imprime el mensaje generado en config/passport
+        })(req, res, next);
+    });
     // Loguea un usuario y lo mete en sesion
-    app.post('/login', passport.authenticate('local-login'),
-        // Si esta logueado devuelve el user
-        function(req, res) {
-            res.send("Logueado con exito!!!");
+    app.post('/login',
+        function(req, res, next) {
+            passport.authenticate('local-login', function(err, user, info) {
+                if (err) {
+                    return next(err); // will generate a 500 error
+                }
+                // Generate a JSON response reflecting authentication status
+                if (!user) {
+                    return res.send({
+                        success: false,
+                        message: info.message // Imprime el mensaje generado en config/passport
+                    });
+                }
+                req.login(user, loginErr => {
+                    if (loginErr) {
+                        return next(loginErr);
+                    }
+                    return res.send({
+                        success: true,
+                        message: 'autenticado con exito'
+                    });
+                });
+            })(req, res, next);
         }
     );
 };
@@ -38,5 +67,5 @@ function isLoggedIn(req, res, callback) {
     if (req.isAuthenticated()) {
         return callback(req, res);
     }
-    res.send("Not logged! Nor permited.");
+    res.send("No estas logueado!");
 }

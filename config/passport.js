@@ -59,9 +59,10 @@ module.exports = function(passport) {
                     }
                     // check to see if theres already a user with that email
                     if (user) {
-                        return done(null, false, console.log({
-                            'signupMessage': 'El usuario ya existe.'
-                        }));
+                        return done(null, false, {
+                            'status': false,
+                            'message': 'El usuario ya existe.'
+                        });
                     } else {
 
                         // if there is no user with that email
@@ -70,15 +71,22 @@ module.exports = function(passport) {
 
                         // set the user's local credentials
                         newUser.username = username;
-                        newUser.password = password; // ******* Modificar para password encriptado
-                        //newUser.password = newUser.generateHash(password);
+                        //newUser.password = password; // ******* Modificar para password encriptado
+                        newUser.password = newUser.encriptPass(password);
 
                         // save the user
                         newUser.save(function(err) {
                             if (!err) {
-                                console.log('Created');
+                                return done(null, false, {
+                                    'status': true,
+                                    'user': newUser,
+                                    'message': 'Registrado con exito.'
+                                });
                             } else {
-                                console.log('ERROR: ' + err);
+                                return done(null, false, {
+                                    'status': false,
+                                    'message': 'Fallo al guardar'
+                                });
                             }
                         });
                     }
@@ -114,15 +122,15 @@ module.exports = function(passport) {
                 }
                 // if no user is found, return the message
                 if (!user) {
-                    return done(null, false, console.log({
-                        'loginMessage': 'No user found.'
-                    })); // req.flash is the way to set flashdata using connect-flash
+                    return done(null, false, {
+                        'message': 'Usuario no encontrado.'
+                    }); // req.flash is the way to set flashdata using connect-flash
                 }
                 // if the user is found but the password is wrong
-                if (!user.validNormalPassword(password)) { // ******* Modificar para password encriptado
-                    return done(null, false, console.log({
-                        'loginMessage': 'Oops! Wrong password.'
-                    })); // create the loginMessage and save it to session as flashdata
+                if (!user.validEncriptPassword(password)) { // ******* Modificar para password encriptado
+                    return done(null, false, {
+                        'message': 'Oops! El password esta mal.'
+                    }); // create the loginMessage and save it to session as flashdata
                 }
                 // all is well, return successful user
                 return done(null, user);
